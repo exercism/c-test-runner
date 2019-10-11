@@ -1,0 +1,15 @@
+{
+  "status": "fail",
+  "tests": [
+    {
+      "name": "test_add",
+      "status": "fail",
+      "message": "Expected 3 Was 2"
+    },
+    {
+      "name": "test_sub",
+      "status": "pass"
+    }
+  ],
+  "message": "make: *** [makefile:21: test] Segmentation fault (core dumped)\n"
+}
