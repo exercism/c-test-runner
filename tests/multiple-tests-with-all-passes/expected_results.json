@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "name": "test_add",
+      "status": "pass"
+    },
+    {
+      "name": "test_sub",
+      "status": "pass"
+    },
+    {
+      "name": "test_mul",
+      "status": "pass"
+    }
+  ]
+}
