@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "name": "test_add",
+      "status": "pass"
+    }
+  ]
+}
