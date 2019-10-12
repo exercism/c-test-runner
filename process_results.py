@@ -14,15 +14,13 @@ def read_test_names(filename):
 def process_results(filename, test_names):
     output = {"status": "pass", "tests": []}
     with open(filename) as f:
+        f.readline()
         for i, line in enumerate(f):
-            if i == 0:
-                continue
-            idx = i - 1
-            if idx >= len(test_names):
+            if i >= len(test_names):
                 break
-            case = {"name": test_names[idx], "status": "fail"}
+            case = {"name": test_names[i], "status": "fail"}
             data = line.rstrip().split(":")
-            if len(data) >= 4 and data[2] == test_names[idx]:
+            if len(data) >= 4 and data[2] == test_names[i]:
                 case["status"] = data[3].lower()
                 if case["status"] == "fail":
                     output["status"] = "fail"
