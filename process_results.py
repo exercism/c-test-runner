@@ -12,23 +12,38 @@ def read_test_names(filename):
 
 
 def process_results(filename, test_names):
-    output = {"status": "pass", "tests": []}
+    output = {"status": "pass", "message": None, "tests": []}
+    case = {}
+    done = False
+    buf = ""
+    i = 0
     with open(filename) as f:
         f.readline()
-        for i, line in enumerate(f):
-            if i >= len(test_names):
-                break
-            case = {"name": test_names[i], "status": "fail"}
+        for line in f:
             data = line.rstrip().split(":")
             if len(data) >= 4 and data[2] == test_names[i]:
+                case["name"] = data[2]
                 case["status"] = data[3].lower()
                 if case["status"] == "fail":
                     output["status"] = "fail"
                     case["message"] = data[4].lstrip()
+                if buf:
+                    if len(buf) > 500:
+                        case["output"] = buf[:500] + "\nOutput was truncated. Please limit to 500 chars."
+                    else:
+                        case["output"] = buf
+                    buf = ""
                 output["tests"].append(case)
+                if case["name"] == test_names[-1]:
+                    done = True
+                    break
+                case = {}
+                i += 1
             else:
-                output["status"] = "fail"
-                output["message"] = line + f.read()
+                buf += line
+    if not done:
+        output["status"] = "error"
+        output["message"] = buf
     return output
 
 
