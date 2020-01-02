@@ -1,5 +1,5 @@
 {
-  "status": "fail",
-  "tests": [],
-  "message": "src/fake.c:3:5: error: no previous declaration for 'invalid' [-Werror=missing-declarations]\n int invalid(int x, int y)\n     ^~~~~~~\ncc1: all warnings being treated as errors\nmake: *** [makefile:34: tests.out] Error 1\n"
+  "status": "error",
+  "message": "src/fake.c:3:5: error: no previous declaration for 'invalid' [-Werror=missing-declarations]\n int invalid(int x, int y)\n     ^~~~~~~\ncc1: all warnings being treated as errors\nmake: *** [makefile:34: tests.out] Error 1\n",
+  "tests": []
 }

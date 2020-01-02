@@ -1,5 +1,6 @@
 {
-  "status": "fail",
+  "status": "error",
+  "message": "make: *** [makefile:21: test] Segmentation fault (core dumped)\n",
   "tests": [
     {
       "name": "test_add",
@@ -10,6 +11,5 @@
       "name": "test_sub",
       "status": "pass"
     }
-  ],
-  "message": "make: *** [makefile:21: test] Segmentation fault (core dumped)\n"
+  ]
 }

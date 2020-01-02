@@ -1,5 +1,6 @@
 {
   "status": "pass",
+  "message": null,
   "tests": [
     {
       "name": "test_add",
