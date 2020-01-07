@@ -7,9 +7,7 @@
 cwd=$(pwd)
 test_file=test_$(echo "$1" | sed 's/-/_/').c
 cd "$2" || exit
-awk -F'[()]' '/RUN_TEST/ {print $2}' test/"${test_file}" > "$3"test_names.out
 sed -i 's#TEST_IGNORE();#// &#' test/"${test_file}"
 make clean
 stdbuf -oL make > "$3"results.out 2>&1
-cd "${cwd}" || exit
-python3 process_results.py "$3"test_names.out "$3"results.out
+python3 "${cwd}"/process_results.py "$3"results.out

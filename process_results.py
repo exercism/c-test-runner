@@ -3,25 +3,34 @@
 import argparse
 import json
 import os
+import re
 
 
-def read_test_names(filename):
+def load_test_names(filename):
+    test_names = []
     with open(filename) as f:
-        test_names = f.read().splitlines()
+        for line in f:
+            m = re.search("RUN_TEST\((.*)\)", line)
+            if m:
+                test_names.append(m.group(1))
     return test_names
 
 
-def process_results(filename, test_names):
+def process_results(filename):
     output = {"status": "pass", "message": None, "tests": []}
     case = {}
     done = False
+    test_names_loaded = False
     buf = ""
     i = 0
     with open(filename) as f:
         f.readline()
         for line in f:
             data = line.rstrip().split(":")
-            if len(data) >= 4 and data[2] == test_names[i]:
+            if len(data) >= 4 and re.search("test_.*.c", data[0]):
+                if not test_names_loaded:
+                    test_names = load_test_names(data[0])
+                    test_names_loaded = True
                 case["name"] = data[2]
                 case["status"] = data[3].lower()
                 if case["status"] == "fail":
@@ -54,11 +63,9 @@ def write_output_file(filename, output):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("test_names_file")
     parser.add_argument("results_file")
     args = parser.parse_args()
-    test_names = read_test_names(args.test_names_file)
-    output = process_results(args.results_file, test_names)
+    output = process_results(args.results_file)
     output_file = os.path.splitext(args.results_file)[0] + ".json"
     write_output_file(output_file, output)
 
