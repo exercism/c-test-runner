@@ -2,14 +2,12 @@
 name: CI
 
 on:
+  push:
+    branches: 
+      - master
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - '.gitignore'
-      - 'LICENSE'
-      - '**.md'
-  push:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
@@ -26,4 +24,9 @@ jobs:
         run: docker build -f Dockerfile -t c-test-runner .
 
       - name: Run Tests
-        run: result=0; for i in tests/*; do docker run --rm -v "$(pwd)"/"$i":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/ || result=1; done; [$result == 0]
+        run: |
+          result=0
+          for testname in tests/*; do
+            docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/ || result=1
+          done
+          [ $result == 0 ]
