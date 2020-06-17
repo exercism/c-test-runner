@@ -22,11 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      #- name: Build Docker Image
-      #  run: docker build -f Dockerfile -t c-test-runner .
+      - name: Build Docker Image
+        run: docker build -f Dockerfile -t c-test-runner .
 
-      #- name: Run Tests
-      #  run: docker run --entrypoint "pytest" c-test-runner
-
-      - name: Test
-        run: ./test.sh
+      - name: Run Tests
+        run: result=0; for i in tests/*; do docker run --rm -v "$(pwd)"/"$i":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/ || result=1; done; [$result == 0]
