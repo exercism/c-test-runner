@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           for testname in tests/*; do
-            echo "Running $i..."
+            echo "Running $testname..."
             docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/
             diff output/results.json "$testname"/expected_results.json
             echo "OK"
