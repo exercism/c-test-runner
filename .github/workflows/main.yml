@@ -24,9 +24,9 @@ jobs:
         run: docker build -f Dockerfile -t c-test-runner .
 
       - name: Run Tests
+        shell: bash
         run: |
-          result=0
+          set -e
           for testname in tests/*; do
-            docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/ || result=1
+            docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/
           done
-          [ $result == 0 ]
