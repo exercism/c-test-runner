@@ -14,7 +14,7 @@ on:
       - '**.md'
 
 jobs:
-  build:
+  test:
     name: Test Runner
     runs-on: ubuntu-latest
     steps:
@@ -22,11 +22,13 @@ jobs:
 
       - name: Build Docker Image
         run: docker build -f Dockerfile -t c-test-runner .
-
+        
       - name: Run Tests
         shell: bash
         run: |
-          set -e
           for testname in tests/*; do
+            echo "Running $i..."
             docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output c-test-runner "fake" /mnt/exercism-iteration/ /output/
+            diff output/results.json "$testname"/expected_results.json
+            echo "OK"
           done
