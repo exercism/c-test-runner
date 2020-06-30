@@ -19,7 +19,7 @@ def get_last_test_name(filepath):
 
 def truncate(text, maxlength=500):
     if len(text) > maxlength:
-        text = f"{text[:500]}\nOutput was truncated. Please limit to {maxlength} chars."
+        text = f"{text[:maxlength]}\nOutput was truncated. Please limit to {maxlength} chars."
     return text
 
 
