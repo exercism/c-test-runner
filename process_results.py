@@ -2,71 +2,63 @@
 
 import argparse
 import json
-import os
+from pathlib import Path
 import re
 
 
-def load_test_names(filename):
-    test_names = []
-    with open(filename) as f:
-        for line in f:
-            m = re.search("RUN_TEST\((.*)\)", line)
-            if m:
-                test_names.append(m.group(1))
-    return test_names
+rgx_testnames = re.compile(r"RUN_TEST\(([^)]+)\);")
+last_test_name = {}
 
 
-def process_results(filename):
+def get_last_test_name(filepath):
+    if filepath not in last_test_name:
+        last_test_name[filepath] = rgx_testnames.findall(
+            Path(filepath).read_text())[-1]
+    return last_test_name[filepath]
+
+
+def truncate(text, maxlength=500):
+    if len(text) > maxlength:
+        text = f"{text[:maxlength]}\nOutput was truncated. Please limit to {maxlength} chars."
+    return text
+
+
+def process_results(filepath):
     output = {"status": "pass", "message": None, "tests": []}
-    case = {}
-    done = False
-    test_names_loaded = False
-    buf = ""
-    i = 0
-    with open(filename) as f:
-        f.readline()
-        for line in f:
-            data = line.rstrip().split(":")
-            if len(data) >= 4 and re.search("test_.*.c", data[0]):
-                if not test_names_loaded:
-                    test_names = load_test_names(data[0])
-                    test_names_loaded = True
-                case["name"] = data[2]
-                case["status"] = data[3].lower()
-                if case["status"] == "fail":
-                    output["status"] = "fail"
-                    case["message"] = data[4].lstrip()
-                if buf:
-                    if len(buf) > 500:
-                        case["output"] = buf[:500] + "\nOutput was truncated. Please limit to 500 chars."
-                    else:
-                        case["output"] = buf
-                    buf = ""
-                output["tests"].append(case)
-                if case["name"] == test_names[-1]:
-                    done = True
-                    break
-                case = {}
-                i += 1
-            else:
-                buf += line
-    if not done:
+    pattern = r"(?m)^((?P<file>.*test_.*\.c):\d+:(?P<name>\w+):(?P<status>PASS|FAIL)(?:: (?P<message>.*))?)$"
+    text = filepath.read_text()
+    text = text[20:]
+    for match in re.finditer(pattern, text):
+        full_line, source_file, name, status, message = match.groups()
+        case = {"name": name, "status": status.lower()}
+        if status == "FAIL":
+            output["status"] = "fail"
+        if message:
+            case["message"] = message
+        output_text, _, text = text.partition(f"{full_line}\n")
+        if output_text:
+            case["output"] = truncate(output_text)
+        output["tests"].append(case)
+        if name == get_last_test_name(source_file):
+            break
+    else:
         output["status"] = "error"
-        output["message"] = buf
+        output["message"] = text
     return output
 
 
 def write_output_file(filename, output):
-    with open(filename, "w") as f:
-        f.write(json.dumps(output, indent=2) + "\n")
+    with filename.open("w") as f:
+        json.dump(output, f, indent=2)
+        f.write("\n")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("results_file")
+    parser.add_argument("results_file", type=Path)
     args = parser.parse_args()
     output = process_results(args.results_file)
-    output_file = os.path.splitext(args.results_file)[0] + ".json"
+    output_file = args.results_file.with_suffix(".json")
     write_output_file(output_file, output)
 
 
