@@ -20,15 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Build Docker Image
-        run: docker build -f Dockerfile -t exercism/c-test-runner .
-
       - name: Run Tests
         shell: bash
-        run: |
-          for testname in tests/*; do
-            echo "Running $testname..."
-            docker run --rm -v "$(pwd)"/"$testname":/mnt/exercism-iteration -v "$(pwd)"/output:/output exercism/c-test-runner "fake" /mnt/exercism-iteration/ /output/
-            diff output/results.json "$testname"/expected_results.json
-            echo "OK"
-          done
+        run: ./test.sh
