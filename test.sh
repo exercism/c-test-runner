@@ -4,11 +4,17 @@ set -e
 
 cd "$(dirname "$0")"
 
-docker build -t test-runner .
+docker build -t exercism/c-test-runner .
 
-for i in tests/*; do
-    echo "Running $i..."
-    docker run --rm -v "$(pwd)"/"$i":/mnt/exercism-iteration -v "$(pwd)"/output:/output test-runner "fake" /mnt/exercism-iteration/ /output/
-    diff output/results.json "$i"/expected_results.json
+for testname in tests/*; do
+    echo "Running ${testname}..."
+    docker run \
+        --network none \
+        --read-only \
+        --rm \
+        -v "$(pwd)"/"${testname}":/mnt/exercism-iteration \
+        -v "$(pwd)"/output:/output \
+        exercism/c-test-runner "fake" /mnt/exercism-iteration/ /output/
+    diff output/results.json "${testname}"/expected_results.json
     echo "OK"
 done
