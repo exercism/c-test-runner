@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Login to ECR
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c # 1.8.0
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c # 1.9.0
         with:
           registry: ${{ env.ECR_REGISTRY }}
           username: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
