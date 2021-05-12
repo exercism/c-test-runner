@@ -1,3 +1,2 @@
-**/*.o
-**/tests.out
-output/
+tests/*/results.json
+tests/*/results.out
