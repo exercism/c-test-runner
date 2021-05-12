@@ -1,5 +1,5 @@
 #include "test-framework/unity.h"
-#include "fake.h"
+#include "multiple_tests_with_test_output.h"
 
 void setUp(void)
 {
@@ -26,7 +26,7 @@ static void test_mul(void)
 
 int main(void)
 {
-   UnityBegin("test_fake.c");
+   UnityBegin("test_multiple_tests_with_test_output.c");
 
    RUN_TEST(test_add);
    RUN_TEST(test_sub);

@@ -1,5 +1,5 @@
 #include "test-framework/unity.h"
-#include "fake.h"
+#include "compile_error.h"
 
 void setUp(void)
 {

@@ -1,5 +1,5 @@
 #include "test-framework/unity.h"
-#include "fake.h"
+#include "multiple_tests_with_single_fail.h"
 
 void setUp(void)
 {
@@ -16,17 +16,17 @@ static void test_add(void)
 
 static void test_sub(void)
 {
-   TEST_ASSERT_EQUAL_INT(4, sub(7, 3));
+   TEST_ASSERT_EQUAL_INT(1, sub(2, 1));
 }
 
 static void test_mul(void)
 {
-   TEST_ASSERT_EQUAL_INT(6, mul(2, 3));
+   TEST_ASSERT_EQUAL_INT(5, mul(2, 3));
 }
 
 int main(void)
 {
-   UnityBegin("test_fake.c");
+   UnityBegin("test_multiple_tests_with_single_fail.c");
 
    RUN_TEST(test_add);
    RUN_TEST(test_sub);

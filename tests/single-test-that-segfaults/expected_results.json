@@ -1,6 +1,6 @@
 {
   "version": 2,
   "status": "error",
-  "message": "make: *** [makefile:21: test] Segmentation fault (core dumped)\n",
+  "message": "make: *** [makefile:22: test] Segmentation fault\n",
   "tests": []
 }

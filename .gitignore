@@ -1,2 +1,3 @@
 tests/*/results.json
 tests/*/results.out
+tests/*/tests.out

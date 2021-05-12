@@ -1,4 +1,4 @@
-#include "fake.h"
+#include "multiple_tests_with_test_output_exceeding_limit.h"
 
 #include <stdio.h>
 

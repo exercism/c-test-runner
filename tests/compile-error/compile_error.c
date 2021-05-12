@@ -1,4 +1,4 @@
-#include "fake.h"
+#include "compile_error.h"
 
 int invalid(int x, int y)
 {

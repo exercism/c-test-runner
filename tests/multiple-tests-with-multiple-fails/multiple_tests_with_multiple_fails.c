@@ -1,4 +1,4 @@
-#include "fake.h"
+#include "multiple_tests_with_multiple_fails.h"
 
 int add(int x, int y)
 {

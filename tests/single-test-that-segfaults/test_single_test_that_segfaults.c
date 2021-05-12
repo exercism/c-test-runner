@@ -1,5 +1,5 @@
 #include "test-framework/unity.h"
-#include "fake.h"
+#include "single_test_that_segfaults.h"
 
 void setUp(void)
 {
@@ -16,7 +16,7 @@ static void test_add(void)
 
 int main(void)
 {
-   UnityBegin("test_fake.c");
+   UnityBegin("test_single_test_that_segfaults.c");
 
    RUN_TEST(test_add);
 

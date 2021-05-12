@@ -25,7 +25,7 @@ slug="$1"
 input_dir="${2%/}"
 output_dir="${3%/}"
 exercise="${slug//-/_}"
-process_results_file=$(realpath ./process_results.py)
+process_results_file="/opt/test-runner/bin/process_results.py"
 tests_file="test_${exercise}.c"
 tests_file_original="${tests_file}.original"
 results_file="${output_dir}/results.json"
@@ -36,11 +36,10 @@ mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
+cd "${input_dir}" > /dev/null
+
 cp "${tests_file}" "${tests_file_original}"
-
 sed -i '/TEST_IGNORE\(\)/d' "${tests_file}"
-
-pushd "${input_dir}" > /dev/null
 
 make clean
 stdbuf -oL make > "${output_file}" 2>&1
@@ -49,6 +48,6 @@ python3 "${process_results_file}" "${output_file}"
 # Restore the original file
 mv -f "${tests_file_original}" "${tests_file}"
 
-popd > /dev/null
+cd - > /dev/null
 
 echo "${slug}: done"

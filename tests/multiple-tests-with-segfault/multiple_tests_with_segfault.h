@@ -1,5 +1,5 @@
-#ifndef FAKE_H
-#define FAKE_H
+#ifndef MULTIPLE_TESTS_WITH_SEGFAULT_H
+#define MULTIPLE_TESTS_WITH_SEGFAULT_H
 
 int add(int x, int y);
 int sub(int x, int y);
