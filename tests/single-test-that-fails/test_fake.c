@@ -1,6 +1,5 @@
-#include <stddef.h>
-#include "vendor/unity.h"
-#include "../src/fake.h"
+#include "test-framework/unity.h"
+#include "fake.h"
 
 void setUp(void)
 {
@@ -17,7 +16,7 @@ static void test_add(void)
 
 int main(void)
 {
-   UnityBegin("test/test_fake.c");
+   UnityBegin("test_fake.c");
 
    RUN_TEST(test_add);
 
