@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 
-rgx_testnames = re.compile(r"RUN_TEST\(([^)]+)\);")
+rgx_testnames = re.compile(r"(?<!\/\/)\s?RUN_TEST\(([^)]+)\);")
 last_test_name = {}
 
 
@@ -27,6 +27,7 @@ def process_results(filepath):
     output = {"version": 2, "status": "pass", "message": None, "tests": []}
     pattern = r"(?m)^((?P<file>.*test_.*\.c):\d+:(?P<name>\w+):(?P<status>PASS|FAIL)(?:: (?P<message>.*))?)$"
     text = filepath.read_text()
+    # remove text "Compiling tests.out"
     text = text[20:]
     for match in re.finditer(pattern, text):
         full_line, source_file, name, status, message = match.groups()
