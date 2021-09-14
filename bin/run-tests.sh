@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Synopsis:
-# Test the test runner by running it against a predefined set of solutions 
+# Test the test runner by running it against a predefined set of solutions
 # with an expected output.
 
 # Output:

@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "status": "pass",
+  "message": null,
+  "tests": [
+    {
+      "name": "test_date",
+      "status": "pass"
+    },
+    {
+      "name": "test_another_date",
+      "status": "pass"
+    },
+    {
+      "name": "test_third_date",
+      "status": "pass"
+    },
+    {
+      "name": "test_date_and_time",
+      "status": "pass"
+    },
+    {
+      "name": "test_date_and_time_with_day_rollover",
+      "status": "pass"
+    }
+  ]
+}
