@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.14.3
 RUN apk add --no-cache coreutils gcc libc-dev make python3
 WORKDIR /opt/test-runner
 COPY . .
