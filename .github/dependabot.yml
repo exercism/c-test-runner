@@ -6,3 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+  # Keep dockerfile up-to-date
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
