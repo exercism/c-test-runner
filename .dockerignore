@@ -4,3 +4,4 @@ tests/
 .git
 .gitignore
 .gitattributes
+.dockerignore
