@@ -3,3 +3,4 @@ tests/
 .appends
 .git
 .gitignore
+.gitattributes
