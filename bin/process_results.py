@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 
-rgx_testnames = re.compile(r"\n\s*RUN_TEST\(([^)]+)\);")
+rgx_testnames = re.compile(r"\n\s*RUN_TEST\([\n\r\s]*([^)]+)\);")
 last_test_name = {}
 
 
