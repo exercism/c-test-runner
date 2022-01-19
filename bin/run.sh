@@ -39,7 +39,6 @@ echo "${slug}: testing..."
 cd "${input_dir}" > /dev/null
 
 cp "${tests_file}" "${tests_file_original}"
-cp "${makefile}" "${makefile_original}"
 sed -i '/TEST_IGNORE\(\)/d' "${tests_file}"
 
 make clean
