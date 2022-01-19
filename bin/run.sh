@@ -30,8 +30,6 @@ tests_file="test_${exercise}.c"
 tests_file_original="${tests_file}.original"
 results_file="${output_dir}/results.json"
 output_file="${output_dir}/results.out"
-makefile="makefile"
-makefile_original="makefile.original"
 
 # Create the output directory if it doesn't exist
 mkdir -p "${output_dir}"
@@ -43,8 +41,6 @@ cd "${input_dir}" > /dev/null
 cp "${tests_file}" "${tests_file_original}"
 cp "${makefile}" "${makefile_original}"
 sed -i '/TEST_IGNORE\(\)/d' "${tests_file}"
-# tests need to be black and white for our python tooling
-sed -i 's/ -DUNITY_OUTPUT_COLOR//' "${makefile}"
 
 make clean
 stdbuf -oL make > "${output_file}" 2>&1
@@ -52,7 +48,6 @@ python3 "${process_results_file}" "${output_file}"
 
 # Restore the original file
 mv -f "${tests_file_original}" "${tests_file}"
-mv -f "${makefile_original}" "${makefile}"
 
 cd - > /dev/null
 
