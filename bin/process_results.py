@@ -25,7 +25,7 @@ def truncate(text, maxlength=500):
 
 def process_results(filepath):
     output = {"version": 2, "status": "pass", "message": None, "tests": []}
-    pattern = r"(?m)^((?P<file>.*test_.*\.c):\d+:(?P<name>\w+):(?P<status>PASS|FAIL)(?:: (?P<message>.*))?)$"
+    pattern = r"(?m)^((?P<file>.*test_.*\.c):\d+:(?P<name>\w+):(?:\033\[\d+m)?(?P<status>PASS|FAIL)(?:\033\[\d+m)?(?:: (?P<message>.*))?)$"
     text = filepath.read_text()
     # remove text "Compiling tests.out"
     text = text[20:]
