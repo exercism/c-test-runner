@@ -26,6 +26,7 @@ input_dir="${2%/}"
 output_dir="${3%/}"
 exercise="${slug//-/_}"
 process_results_file="$(dirname $(readlink -f "$0"))/process_results.py"
+cc_file="$(dirname $(readlink -f "$0"))/cc.sh"
 tests_file="test_${exercise}.c"
 tests_file_original="${tests_file}.original"
 results_file="${output_dir}/results.json"
@@ -42,7 +43,7 @@ cp "${tests_file}" "${tests_file_original}"
 sed -i '/TEST_IGNORE\(\)/d' "${tests_file}"
 
 make clean
-stdbuf -oL make > "${output_file}" 2>&1
+stdbuf -oL make CC="${cc_file}" > "${output_file}" 2>&1
 python3 "${process_results_file}" "${output_file}"
 
 # Restore the original file
