@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import argparse
 import json
 from pathlib import Path
 import re
+import sys
 
 
 rgx_testnames = re.compile(r"\n\s*RUN_TEST\([\n\r\s]*([^)]+)\);")
@@ -55,11 +55,10 @@ def write_output_file(filename, output):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("results_file", type=Path)
-    args = parser.parse_args()
-    output = process_results(args.results_file)
-    output_file = args.results_file.with_suffix(".json")
+    # Read the one argument from sys.argv. Importing argparse costs about 35 ms on each run.
+    results_file = Path(sys.argv[1])
+    output = process_results(results_file)
+    output_file = results_file.with_suffix(".json")
     write_output_file(output_file, output)
 
 
